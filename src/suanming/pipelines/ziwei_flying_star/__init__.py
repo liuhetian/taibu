@@ -32,11 +32,7 @@ class ZiweiFlyingOutput(BaseModel):
 
 def calculate_flying(request: ZiweiFlyingInput) -> ZiweiFlyingOutput:
     natal = calculate_ziwei(ZiweiInput.model_validate(request.model_dump()))
-    star_locations = {
-        star.name: palace
-        for palace in natal.palaces
-        for star in palace.stars
-    }
+    star_locations = {star.name: palace for palace in natal.palaces for star in palace.stars}
     flights: list[FlyingTransformation] = []
     unresolved: set[str] = set()
     for source in natal.palaces:

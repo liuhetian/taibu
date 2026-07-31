@@ -119,9 +119,7 @@ def main(argv: list[str] | None = None) -> int:
             payload = pipeline_schema(args.pipeline, args.kind)
         elif args.command == "assets":
             payload = (
-                verify_asset_manifest(args.root)
-                if args.verify
-                else load_asset_manifest(args.root)
+                verify_asset_manifest(args.root) if args.verify else load_asset_manifest(args.root)
             )
         else:
             request = _load_request(args.input)

@@ -53,4 +53,3 @@ def test_xiaoliuren_manual_numbers() -> None:
     )
     assert result.result["result_palace"] == "大安"
     assert result.result["calendar_basis"] == "manual_lunar_numbers"
-

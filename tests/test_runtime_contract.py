@@ -1,7 +1,9 @@
 from datetime import UTC, datetime
 
-from suanming.runtime import describe_pipelines, pipeline_schema, run_pipeline
+import pytest
 
+from suanming.errors import InputValidationError
+from suanming.runtime import describe_pipelines, pipeline_schema, run_pipeline
 
 EXPECTED_PIPELINES = {
     "almanac",
@@ -75,3 +77,68 @@ def test_envelope_contains_only_json_serializable_values() -> None:
     )
     encoded = envelope.model_dump_json()
     assert '"schema_version":"1.0"' in encoded
+
+
+def test_run_id_changes_when_implicit_time_changes_the_result() -> None:
+    request = {"birth_date": "1990-05-15"}
+    first = run_pipeline(
+        "numerology",
+        request,
+        now=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+    second = run_pipeline(
+        "numerology",
+        request,
+        now=datetime(2027, 1, 1, tzinfo=UTC),
+    )
+
+    assert first.result != second.result
+    assert first.reproducibility.run_id != second.reproducibility.run_id
+
+
+def test_run_id_is_stable_when_result_is_stable() -> None:
+    request = {"birth_date": "1990-05-15", "target_year": 2026}
+    first = run_pipeline(
+        "numerology",
+        request,
+        now=datetime(2026, 1, 1, tzinfo=UTC),
+    )
+    second = run_pipeline(
+        "numerology",
+        request,
+        now=datetime(2027, 1, 1, tzinfo=UTC),
+    )
+
+    assert first.result == second.result
+    assert first.reproducibility.run_id == second.reproducibility.run_id
+
+
+def test_pipeline_rejects_nonexistent_local_time() -> None:
+    with pytest.raises(InputValidationError) as exc_info:
+        run_pipeline(
+            "bazi",
+            {
+                "datetime": "2026-03-08T02:30:00",
+                "timezone": "America/New_York",
+            },
+        )
+    assert "不存在" in str(exc_info.value.details)
+
+
+def test_nested_birth_time_rejects_ambiguous_local_time() -> None:
+    with pytest.raises(InputValidationError) as exc_info:
+        run_pipeline(
+            "compatibility",
+            {
+                "first": {
+                    "label": "甲",
+                    "datetime": "2026-11-01T01:30:00",
+                    "timezone": "America/New_York",
+                },
+                "second": {
+                    "label": "乙",
+                    "datetime": "1992-09-20T08:15:00",
+                },
+            },
+        )
+    assert "两个可能偏移量" in str(exc_info.value.details)

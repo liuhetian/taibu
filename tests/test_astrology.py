@@ -18,4 +18,3 @@ def test_astrology_positions_and_houses() -> None:
     assert 270 <= sun["longitude"] < 300
     assert result["ascendant"]["house"] == 1
     assert all(point["house"] is not None for point in result["points"])
-

@@ -1,5 +1,7 @@
 # Suanming Kernel
 
+[![CI](https://github.com/liuhetian/taibu/actions/workflows/ci.yml/badge.svg)](https://github.com/liuhetian/taibu/actions/workflows/ci.yml)
+
 一个从零实现、运行时离线、面向 JSON 的可扩展命理与象征性预测内核。
 
 当前 `0.1.0` 已完成“门类全覆盖”的第一版：26 条可执行管线、统一
@@ -105,3 +107,24 @@ print(envelope.model_dump(mode="json"))
 可序列化，不存在仅占位的算法模块。
 
 发布前请由仓库所有者选择许可证；当前未替用户预设开源许可。
+
+## 开发与质量检查
+
+安装开发依赖和提交前检查：
+
+```bash
+make setup
+```
+
+格式化代码并运行完整质量门禁：
+
+```bash
+make format
+make check
+```
+
+质量门禁包括 Ruff 格式与静态规则、Mypy 类型检查、Pytest、分支覆盖率
+（最低 90%）以及素材 SHA-256 校验。`make build` 会在通过全部检查后生成
+sdist 和 wheel。相同检查也会在 GitHub Actions 中自动执行。
+
+贡献约定见 [CONTRIBUTING.md](CONTRIBUTING.md)。

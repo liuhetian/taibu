@@ -85,9 +85,7 @@ class ResultEnvelope(BaseModel):
     reproducibility: Reproducibility
     warnings: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
-    disclaimer: str = (
-        "本结果用于传统文化研究与娱乐，不构成医疗、法律、财务或其他专业建议。"
-    )
+    disclaimer: str = "本结果用于传统文化研究与娱乐，不构成医疗、法律、财务或其他专业建议。"
 
 
 InputT = TypeVar("InputT", bound=BaseModel)
@@ -105,7 +103,7 @@ class RunContext:
 
 
 class Pipeline(ABC, Generic[InputT, OutputT]):
-    manifest: ClassVar[PipelineManifest]
+    manifest: PipelineManifest
     input_model: ClassVar[type[InputT]]
     output_model: ClassVar[type[OutputT]]
 
@@ -120,4 +118,3 @@ class Pipeline(ABC, Generic[InputT, OutputT]):
     @classmethod
     def output_schema(cls) -> dict[str, Any]:
         return cls.output_model.model_json_schema()
-

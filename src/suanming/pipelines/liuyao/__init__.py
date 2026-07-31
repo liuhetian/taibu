@@ -18,7 +18,6 @@ from ...shared.hexagrams import (
 )
 from ...shared.time import localize_datetime, timezone_of
 
-
 NAJIA_BRANCHES = {
     "乾": (("子", "寅", "辰"), ("午", "申", "戌")),
     "坤": (("未", "巳", "卯"), ("丑", "亥", "酉")),
@@ -43,11 +42,14 @@ class LiuyaoInput(BaseModel):
     throws: list[int] | None = Field(default=None, min_length=6, max_length=6)
 
     @model_validator(mode="after")
-    def validate_method(self) -> "LiuyaoInput":
+    def validate_method(self) -> LiuyaoInput:
         timezone_of(self.timezone)
-        if self.method == "manual":
-            if self.throws is None or any(value not in {6, 7, 8, 9} for value in self.throws):
-                raise ValueError("manual 模式需要六个 6/7/8/9 爻值。")
+        if self.datetime is not None:
+            localize_datetime(self.datetime, self.timezone)
+        if self.method == "manual" and (
+            self.throws is None or any(value not in {6, 7, 8, 9} for value in self.throws)
+        ):
+            raise ValueError("manual 模式需要六个 6/7/8/9 爻值。")
         return self
 
 
@@ -92,10 +94,7 @@ def _time_throws(value: DateTime) -> list[int]:
     pillars = four_pillars(value, day_boundary="zi_hour")
     base = value.year + value.month + value.day + ((value.hour + 1) // 2)
     moving = base % 6
-    lines = [
-        7 if ((pillars.day.index >> index) & 1) else 8
-        for index in range(6)
-    ]
+    lines = [7 if ((pillars.day.index >> index) & 1) else 8 for index in range(6)]
     lines[moving] = 9 if lines[moving] == 7 else 6
     return lines
 
@@ -111,10 +110,7 @@ def calculate_liuyao(request: LiuyaoInput, context: RunContext) -> LiuyaoOutput:
     elif request.method == "time":
         throws = _time_throws(effective)
     else:
-        throws = [
-            sum(context.rng.choice((2, 3)) for _ in range(3))
-            for _ in range(6)
-        ]
+        throws = [sum(context.rng.choice((2, 3)) for _ in range(3)) for _ in range(6)]
 
     binary = [1 if value in {7, 9} else 0 for value in throws]
     moving_lines = [index + 1 for index, value in enumerate(throws) if value in {6, 9}]
@@ -176,4 +172,3 @@ class LiuyaoPipeline(Pipeline[LiuyaoInput, LiuyaoOutput]):
 
     def execute(self, request: LiuyaoInput, context: RunContext) -> PipelineExecution:
         return PipelineExecution(result=calculate_liuyao(request, context))
-

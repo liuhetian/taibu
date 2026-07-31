@@ -8,7 +8,6 @@ from pydantic import BaseModel, ConfigDict, Field
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 
-
 NUMBER_MEANINGS = {
     1: ("开创者", ("独立", "行动", "领导")),
     2: ("协调者", ("合作", "敏感", "平衡")),
@@ -41,12 +40,8 @@ def _latin_values(name: str) -> tuple[list[int], list[int], list[int]]:
     letters = [char for char in normalized if "A" <= char <= "Z"]
     vowels = {"A", "E", "I", "O", "U", "Y"}
     all_values = [(ord(char) - ord("A")) % 9 + 1 for char in letters]
-    vowel_values = [
-        (ord(char) - ord("A")) % 9 + 1 for char in letters if char in vowels
-    ]
-    consonant_values = [
-        (ord(char) - ord("A")) % 9 + 1 for char in letters if char not in vowels
-    ]
+    vowel_values = [(ord(char) - ord("A")) % 9 + 1 for char in letters if char in vowels]
+    consonant_values = [(ord(char) - ord("A")) % 9 + 1 for char in letters if char not in vowels]
     return all_values, vowel_values, consonant_values
 
 
@@ -156,4 +151,3 @@ class NumerologyPipeline(Pipeline[NumerologyInput, NumerologyOutput]):
             else []
         )
         return PipelineExecution(result=output, warnings=warnings)
-

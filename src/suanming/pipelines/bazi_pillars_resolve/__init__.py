@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from datetime import date as Date, datetime as DateTime, time, timedelta
+from datetime import date as Date
+from datetime import datetime as DateTime
+from datetime import time, timedelta
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -23,7 +25,7 @@ class BaziResolveInput(BaseModel):
     max_results: int = Field(default=100, ge=1, le=1000)
 
     @model_validator(mode="after")
-    def validate_request(self) -> "BaziResolveInput":
+    def validate_request(self) -> BaziResolveInput:
         timezone_of(self.timezone)
         if self.end_year < self.start_year:
             raise ValueError("end_year 不得早于 start_year。")
@@ -87,7 +89,12 @@ def calculate_resolve(request: BaziResolveInput) -> BaziResolveOutput:
                 values.hour.name,
             )
             if names == target:
-                start_hour = (representative_hour - 1) % 24
+                # With the midnight day boundary, the 23:00 half of 子时
+                # belongs to the previous day and can have a different day/hour
+                # pillar. Only return the interval verified by this candidate.
+                start_hour = (
+                    representative_hour if target_hour_branch == "子" else representative_hour - 1
+                )
                 end_hour = representative_hour % 24
                 candidates.append(
                     BirthCandidate(
@@ -108,7 +115,7 @@ def calculate_resolve(request: BaziResolveInput) -> BaziResolveOutput:
         scanned_days=scanned,
         method_notes=[
             "先按日柱筛选日期，再在目标时支的代表时刻核验完整四柱。",
-            "候选窗口是民用钟表两小时范围；节令边界附近应再用具体分钟复核。",
+            "候选窗口按民用钟表给出；午夜日界下子时会拆分核验。",
             "反查无法唯一确定地点、经度、真太阳时、历法记录误差或采用的日界门派。",
         ],
     )

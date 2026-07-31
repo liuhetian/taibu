@@ -13,9 +13,21 @@ from ...shared.ganzhi import (
     sexagenary_index,
 )
 
-
 PALACE_BRANCHES = ("寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥", "子", "丑")
-PALACE_NAMES = ("命宫", "兄弟", "夫妻", "子女", "财帛", "疾厄", "迁移", "仆役", "官禄", "田宅", "福德", "父母")
+PALACE_NAMES = (
+    "命宫",
+    "兄弟",
+    "夫妻",
+    "子女",
+    "财帛",
+    "疾厄",
+    "迁移",
+    "仆役",
+    "官禄",
+    "田宅",
+    "福德",
+    "父母",
+)
 BUREAU_BY_ELEMENT = {"水": 2, "木": 3, "金": 4, "土": 5, "火": 6}
 ZIWEI_OFFSETS = {
     "紫微": 0,
@@ -60,14 +72,32 @@ LUCUN_BRANCH = {
     "癸": "子",
 }
 LIFE_LORD = {
-    "子": "贪狼", "丑": "巨门", "寅": "禄存", "卯": "文曲",
-    "辰": "廉贞", "巳": "武曲", "午": "破军", "未": "武曲",
-    "申": "廉贞", "酉": "文曲", "戌": "禄存", "亥": "巨门",
+    "子": "贪狼",
+    "丑": "巨门",
+    "寅": "禄存",
+    "卯": "文曲",
+    "辰": "廉贞",
+    "巳": "武曲",
+    "午": "破军",
+    "未": "武曲",
+    "申": "廉贞",
+    "酉": "文曲",
+    "戌": "禄存",
+    "亥": "巨门",
 }
 BODY_LORD = {
-    "子": "火星", "丑": "天相", "寅": "天梁", "卯": "天同",
-    "辰": "文昌", "巳": "天机", "午": "火星", "未": "天相",
-    "申": "天梁", "酉": "天同", "戌": "文昌", "亥": "天机",
+    "子": "火星",
+    "丑": "天相",
+    "寅": "天梁",
+    "卯": "天同",
+    "辰": "文昌",
+    "巳": "天机",
+    "午": "火星",
+    "未": "天相",
+    "申": "天梁",
+    "酉": "天同",
+    "戌": "文昌",
+    "亥": "天机",
 }
 
 
@@ -130,9 +160,7 @@ def calculate_ziwei(request: ZiweiInput) -> ZiweiOutput:
     body_index = (request.lunar_month - 1 + hour_index) % 12
 
     palace_stem_start = (HEAVENLY_STEMS.index(year_stem) * 2 + 2) % 10
-    palace_stems = [
-        HEAVENLY_STEMS[(palace_stem_start + index) % 10] for index in range(12)
-    ]
+    palace_stems = [HEAVENLY_STEMS[(palace_stem_start + index) % 10] for index in range(12)]
     life_branch = PALACE_BRANCHES[life_index]
     life_stem = palace_stems[life_index]
     life_nayin = nayin_of(sexagenary_index(life_stem, life_branch))
@@ -167,8 +195,7 @@ def calculate_ziwei(request: ZiweiInput) -> ZiweiOutput:
     transformations = FOUR_TRANSFORMATIONS[year_stem]
     transform_by_star = {star: kind for kind, star in transformations.items()}
     palace_name_by_index = {
-        (life_index - offset) % 12: name
-        for offset, name in enumerate(PALACE_NAMES)
+        (life_index - offset) % 12: name for offset, name in enumerate(PALACE_NAMES)
     }
     palaces: list[ZiweiPalace] = []
     for index, branch in enumerate(PALACE_BRANCHES):

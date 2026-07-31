@@ -8,7 +8,6 @@ from ...contracts import Pipeline, PipelineExecution, PipelineManifest, Pipeline
 from ...registry import register_pipeline
 from ...shared.time import localize_datetime, timezone_of
 
-
 PALACE_DATA: tuple[dict[str, object], ...] = (
     {
         "name": "大安",
@@ -72,8 +71,10 @@ class XiaoliurenInput(BaseModel):
     question: str | None = Field(default=None, max_length=500)
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "XiaoliurenInput":
+    def validate_timezone(self) -> XiaoliurenInput:
         timezone_of(self.timezone)
+        if self.datetime is not None:
+            localize_datetime(self.datetime, self.timezone)
         supplied = (self.lunar_month, self.lunar_day, self.hour_index)
         if any(value is not None for value in supplied) and not all(
             value is not None for value in supplied
@@ -138,7 +139,9 @@ def calculate_xiaoliuren(
         day_number=day_number,
         hour_number=hour_number,
         steps=[
-            CountingStep(stage="月", count=month_number, palace=str(PALACE_DATA[month_index]["name"])),
+            CountingStep(
+                stage="月", count=month_number, palace=str(PALACE_DATA[month_index]["name"])
+            ),
             CountingStep(stage="日", count=day_number, palace=str(PALACE_DATA[day_index]["name"])),
             CountingStep(stage="时", count=hour_number, palace=str(result["name"])),
         ],
@@ -166,7 +169,7 @@ class XiaoliurenPipeline(Pipeline[XiaoliurenInput, XiaoliurenOutput]):
         tradition="chinese",
         mode=PipelineMode.DETERMINISTIC,
         summary="按月、日、时三步落六宫，输出宫位、五行、方位与结构化断事线索。",
-        asset_pack="xiaoliuren-v1",
+        asset_pack="yijing-v1",
         tags=["大安", "留连", "速喜", "赤口", "小吉", "空亡"],
     )
     input_model = XiaoliurenInput
@@ -184,4 +187,3 @@ class XiaoliurenPipeline(Pipeline[XiaoliurenInput, XiaoliurenOutput]):
             else []
         )
         return PipelineExecution(result=output, warnings=warnings)
-

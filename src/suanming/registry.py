@@ -7,7 +7,6 @@ from collections.abc import Iterator
 from .contracts import Pipeline
 from .errors import UnknownPipelineError
 
-
 _PIPELINES: dict[str, Pipeline] = {}
 _DISCOVERED = False
 

@@ -8,8 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 from ...shared.ganzhi import four_pillars
-from ...shared.time import gregorian_jdn, localize_datetime, solar_longitude, timezone_of
-
+from ...shared.time import gregorian_jdn, localize_datetime, solar_longitude
 
 PALACE_SEQUENCE = (1, 8, 3, 4, 9, 2, 7, 6)
 PALACE_DIRECTIONS = {
@@ -45,8 +44,8 @@ class TaiyiInput(BaseModel):
     question: str | None = Field(default=None, max_length=1000)
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "TaiyiInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> TaiyiInput:
+        localize_datetime(self.datetime, self.timezone)
         return self
 
 
@@ -81,8 +80,8 @@ def calculate_taiyi(request: TaiyiInput) -> TaiyiOutput:
     yang_dun = longitude >= 270 or longitude < 90
     jdn = gregorian_jdn(effective.year, effective.month, effective.day)
     day_count = jdn - gregorian_jdn(2000, 1, 7)
-    epoch_count = day_count if request.scale == "day" else day_count * 12 + (
-        (effective.hour + 1) // 2
+    epoch_count = (
+        day_count if request.scale == "day" else day_count * 12 + ((effective.hour + 1) // 2)
     )
     cycle_index = epoch_count % 72
     ju = cycle_index + 1 if yang_dun else 72 - cycle_index

@@ -7,7 +7,6 @@ import pytest
 
 from suanming.runtime import run_pipeline
 
-
 SAMPLES = {
     "almanac": {"date": "2026-07-30"},
     "astrology": {

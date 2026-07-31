@@ -15,7 +15,13 @@
   "packs": [
     {
       "id": "bazi-v1",
-      "pipelines": ["bazi", "bazi_dayun"],
+      "pipelines": [
+        "bazi",
+        "bazi_dayun",
+        "bazi_pillars_resolve",
+        "compatibility",
+        "fortune"
+      ],
       "profile": "fourfold celestial tablets",
       "assets": [
         {
@@ -47,7 +53,7 @@
     },
     {
       "id": "yijing-v1",
-      "pipelines": ["liuyao", "meihua"],
+      "pipelines": ["almanac", "liuyao", "meihua", "xiaoliuren"],
       "profile": "sixfold changing hexagram",
       "assets": [
         {
@@ -63,7 +69,7 @@
     },
     {
       "id": "ziwei-v1",
-      "pipelines": ["ziwei"],
+      "pipelines": ["ziwei", "ziwei_flying_star", "ziwei_horoscope"],
       "profile": "twelve celestial courts",
       "assets": [
         {

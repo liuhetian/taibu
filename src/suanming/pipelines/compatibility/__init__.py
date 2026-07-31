@@ -14,10 +14,11 @@ from ...shared.ganzhi import (
     SIX_COMBINATIONS,
     SIX_HARMS,
     STEM_ELEMENTS,
+    FourPillars,
     five_element_statistics,
     four_pillars,
 )
-from ...shared.time import localize_datetime, timezone_of
+from ...shared.time import localize_datetime
 
 
 class PersonInput(BaseModel):
@@ -28,8 +29,8 @@ class PersonInput(BaseModel):
     timezone: str = "Asia/Shanghai"
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "PersonInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> PersonInput:
+        localize_datetime(self.datetime, self.timezone)
         return self
 
 
@@ -60,7 +61,7 @@ class CompatibilityOutput(BaseModel):
     method_notes: list[str]
 
 
-def _chart(person: PersonInput):
+def _chart(person: PersonInput) -> tuple[DateTime, FourPillars, dict[str, float]]:
     effective = localize_datetime(person.datetime, person.timezone)
     pillars = four_pillars(effective)
     return effective, pillars, five_element_statistics(pillars)
@@ -203,7 +204,7 @@ class CompatibilityPipeline(Pipeline[CompatibilityInput, CompatibilityOutput]):
         tradition="chinese",
         mode=PipelineMode.DETERMINISTIC,
         summary="比较两组四柱的日主、地支关系与五行结构，输出可解释的分项结果。",
-        asset_pack="compatibility-v1",
+        asset_pack="bazi-v1",
         tags=["合盘", "关系", "五行", "地支"],
     )
     input_model = CompatibilityInput

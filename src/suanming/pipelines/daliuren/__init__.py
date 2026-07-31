@@ -14,19 +14,44 @@ from ...shared.ganzhi import (
     STEM_ELEMENTS,
     four_pillars,
 )
-from ...shared.time import localize_datetime, solar_longitude, timezone_of
-
+from ...shared.time import localize_datetime, solar_longitude
 
 STEM_LODGING = {
-    "甲": "寅", "乙": "辰", "丙": "巳", "丁": "未", "戊": "巳",
-    "己": "未", "庚": "申", "辛": "戌", "壬": "亥", "癸": "丑",
+    "甲": "寅",
+    "乙": "辰",
+    "丙": "巳",
+    "丁": "未",
+    "戊": "巳",
+    "己": "未",
+    "庚": "申",
+    "辛": "戌",
+    "壬": "亥",
+    "癸": "丑",
 }
-HEAVENLY_GENERALS = ("贵人", "螣蛇", "朱雀", "六合", "勾陈", "青龙", "天空", "白虎", "太常", "玄武", "太阴", "天后")
+HEAVENLY_GENERALS = (
+    "贵人",
+    "螣蛇",
+    "朱雀",
+    "六合",
+    "勾陈",
+    "青龙",
+    "天空",
+    "白虎",
+    "太常",
+    "玄武",
+    "太阴",
+    "天后",
+)
 NOBLEMAN = {
-    "甲": ("丑", "未"), "戊": ("丑", "未"), "庚": ("丑", "未"),
-    "乙": ("子", "申"), "己": ("子", "申"),
-    "丙": ("亥", "酉"), "丁": ("亥", "酉"),
-    "壬": ("卯", "巳"), "癸": ("卯", "巳"),
+    "甲": ("丑", "未"),
+    "戊": ("丑", "未"),
+    "庚": ("丑", "未"),
+    "乙": ("子", "申"),
+    "己": ("子", "申"),
+    "丙": ("亥", "酉"),
+    "丁": ("亥", "酉"),
+    "壬": ("卯", "巳"),
+    "癸": ("卯", "巳"),
     "辛": ("午", "寅"),
 }
 
@@ -38,8 +63,8 @@ class DaliurenInput(BaseModel):
     timezone: str = "Asia/Shanghai"
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "DaliurenInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> DaliurenInput:
+        localize_datetime(self.datetime, self.timezone)
         return self
 
 
@@ -144,9 +169,7 @@ def calculate_daliuren(request: DaliurenInput) -> DaliurenOutput:
         for index, (lower, lower_element, top) in enumerate(lesson_pairs)
     ]
 
-    conflict_lessons = [
-        item for item in lessons if item.relation in {"下贼上", "上克下"}
-    ]
+    conflict_lessons = [item for item in lessons if item.relation in {"下贼上", "上克下"}]
     if shift % 12 == 0:
         lesson_type = "伏吟"
         initial = day_branch
@@ -160,8 +183,7 @@ def calculate_daliuren(request: DaliurenInput) -> DaliurenOutput:
         same_polarity = [
             item
             for item in conflict_lessons
-            if EARTHLY_BRANCHES.index(item.upper) % 2
-            == EARTHLY_BRANCHES.index(day_branch) % 2
+            if EARTHLY_BRANCHES.index(item.upper) % 2 == EARTHLY_BRANCHES.index(day_branch) % 2
         ]
         lesson_type = "比用" if same_polarity else "涉害"
         initial = (same_polarity or conflict_lessons)[0].upper

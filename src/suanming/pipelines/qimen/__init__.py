@@ -15,8 +15,7 @@ from ...contracts import (
 )
 from ...registry import register_pipeline
 from ...shared.ganzhi import four_pillars
-from ...shared.time import localize_datetime, solar_term_at, timezone_of
-
+from ...shared.time import localize_datetime, solar_term_at
 
 PALACES: dict[int, dict[str, str]] = {
     1: {"trigram": "坎", "direction": "北", "element": "水"},
@@ -98,8 +97,8 @@ class QimenInput(BaseModel):
     day_boundary: Literal["midnight", "zi_hour"] = "zi_hour"
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "QimenInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> QimenInput:
+        localize_datetime(self.datetime, self.timezone)
         return self
 
 
@@ -179,7 +178,7 @@ def calculate_qimen(request: QimenInput) -> QimenOutput:
         "芒种",
     }
     direction = 1 if is_yang else -1
-    dun = "阳遁" if is_yang else "阴遁"
+    dun: Literal["阳遁", "阴遁"] = "阳遁" if is_yang else "阴遁"
     ju = JU_TABLE[term.name][yuan_index]
 
     earth_plate: dict[int, str] = {}
@@ -189,9 +188,7 @@ def calculate_qimen(request: QimenInput) -> QimenOutput:
     xun_index = pillars.hour.index // 10
     concealed = XUN_CONCEALED[xun_index]
     xun_head = ("甲子", "甲戌", "甲申", "甲午", "甲辰", "甲寅")[xun_index]
-    chief_palace = next(
-        palace for palace, stem in earth_plate.items() if stem == concealed
-    )
+    chief_palace = next(palace for palace, stem in earth_plate.items() if stem == concealed)
     chief_star = STARS[chief_palace]
     chief_door = DOORS[chief_palace]
 
@@ -299,7 +296,5 @@ class QimenPipeline(Pipeline[QimenInput, QimenOutput]):
                     status="available",
                 )
             ],
-            warnings=[
-                "当前规则集固定为时家转盘法；不同门派的置闰、拆补与飞盘法结果可能不同。"
-            ],
+            warnings=["当前规则集固定为时家转盘法；不同门派的置闰、拆补与飞盘法结果可能不同。"],
         )

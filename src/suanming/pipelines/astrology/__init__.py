@@ -12,8 +12,7 @@ from ...shared.astronomy import (
     is_retrograde,
     planetary_positions,
 )
-from ...shared.time import localize_datetime, timezone_of
-
+from ...shared.time import localize_datetime
 
 BODY_NAMES = {
     "sun": "太阳",
@@ -59,8 +58,8 @@ class AstrologyInput(BaseModel):
     longitude: float | None = Field(default=None, ge=-180, le=180)
 
     @model_validator(mode="after")
-    def validate_location(self) -> "AstrologyInput":
-        timezone_of(self.timezone)
+    def validate_location(self) -> AstrologyInput:
+        localize_datetime(self.datetime, self.timezone)
         if (self.latitude is None) != (self.longitude is None):
             raise ValueError("latitude 与 longitude 必须同时提供。")
         return self
@@ -170,8 +169,8 @@ def calculate_astrology(request: AstrologyInput) -> AstrologyOutput:
 
     elements = ("火", "土", "风", "水")
     modalities = ("本位", "固定", "变动")
-    element_balance = {item: 0 for item in elements}
-    modality_balance = {item: 0 for item in modalities}
+    element_balance = dict.fromkeys(elements, 0)
+    modality_balance = dict.fromkeys(modalities, 0)
     for index in sign_indices:
         element_balance[elements[index % 4]] += 1
         modality_balance[modalities[index % 3]] += 1
@@ -224,4 +223,3 @@ class AstrologyPipeline(Pipeline[AstrologyInput, AstrologyOutput]):
             result=calculate_astrology(request),
             warnings=["低精度轨道级数不用于天文观测、航海或高精度合盘。"],
         )
-

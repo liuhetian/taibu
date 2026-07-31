@@ -7,7 +7,6 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 
-
 # direction +1 means agreement supports the first pole, -1 supports the second.
 QUESTION_BANK: dict[str, tuple[str, str, int]] = {
     "ei01": ("E-I", "连续社交后我通常更有精力。", 1),
@@ -46,7 +45,7 @@ class MbtiInput(BaseModel):
     )
 
     @model_validator(mode="after")
-    def validate_ids(self) -> "MbtiInput":
+    def validate_ids(self) -> MbtiInput:
         unknown = sorted(set(self.responses) - set(QUESTION_BANK))
         if unknown:
             raise ValueError(f"未知题目编号：{', '.join(unknown)}")
@@ -74,7 +73,7 @@ class MbtiOutput(BaseModel):
 
 def calculate_mbti(request: MbtiInput) -> MbtiOutput:
     scores = {"E-I": 0, "S-N": 0, "T-F": 0, "J-P": 0}
-    counts = {key: 0 for key in scores}
+    counts = dict.fromkeys(scores, 0)
     for question_id, response in request.responses.items():
         dimension, _, direction = QUESTION_BANK[question_id]
         scores[dimension] += response * direction
@@ -134,4 +133,3 @@ class MbtiPipeline(Pipeline[MbtiInput, MbtiOutput]):
             result=calculate_mbti(request),
             warnings=["本量表不是官方 MBTI 评估，也不用于临床或招聘决策。"],
         )
-

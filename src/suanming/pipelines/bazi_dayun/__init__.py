@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime as DateTime, timedelta
+from datetime import datetime as DateTime
+from datetime import timedelta
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -8,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 from ...shared.ganzhi import STEM_ELEMENTS, four_pillars, ganzhi_at, yin_yang_of_stem
-from ...shared.time import localize_datetime, solar_longitude, timezone_of
+from ...shared.time import localize_datetime, solar_longitude
 
 
 class BaziDayunInput(BaseModel):
@@ -20,8 +21,8 @@ class BaziDayunInput(BaseModel):
     cycles: int = Field(default=8, ge=1, le=12)
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "BaziDayunInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> BaziDayunInput:
+        localize_datetime(self.datetime, self.timezone)
         return self
 
 

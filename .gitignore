@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 dist/
 build/
@@ -12,3 +13,5 @@ build/
 .idea/
 .vscode/
 tmp/
+.mypy_cache/
+.ruff_cache/

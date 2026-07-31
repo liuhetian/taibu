@@ -17,4 +17,3 @@ def test_qimen_has_complete_nine_palaces() -> None:
     assert len({palace.earth_stem for palace in result.palaces}) == 9
     assert len({palace.star for palace in result.palaces}) == 9
     assert len({palace.door for palace in result.palaces}) == 9
-

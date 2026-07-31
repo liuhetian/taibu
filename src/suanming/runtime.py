@@ -12,15 +12,15 @@ from pydantic import ValidationError
 
 from .assets import asset_references_for_pack
 from .contracts import (
-    PipelineMode,
     PipelineIdentity,
+    PipelineMode,
     Reproducibility,
     ResultEnvelope,
     RunContext,
 )
-from .errors import InputValidationError
-from .errors import AssetManifestError
+from .errors import AssetManifestError, InputValidationError
 from .registry import get_pipeline, iter_pipelines
+from .shared.time import localize_datetime
 
 
 def _canonical_json(value: Any) -> str:
@@ -63,10 +63,13 @@ def _effective_datetime(request: dict[str, Any], now: datetime) -> tuple[datetim
                 details=[{"field": "datetime", "value": candidate}],
             ) from exc
 
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone)
-    else:
-        parsed = parsed.astimezone(timezone)
+    try:
+        parsed = localize_datetime(parsed, timezone_name)
+    except ValueError as exc:
+        raise InputValidationError(
+            str(exc),
+            details=[{"field": "datetime", "value": str(candidate)}],
+        ) from exc
     return parsed, timezone_name
 
 
@@ -108,22 +111,22 @@ def run_pipeline(
     except ValidationError as exc:
         raise InputValidationError(
             "输入未通过管线校验。",
-            details=exc.errors(
-                include_url=False,
-                include_context=False,
-            ),
+            details=[
+                dict(item)
+                for item in exc.errors(
+                    include_url=False,
+                    include_context=False,
+                )
+            ],
         ) from exc
 
     request_dict = request.model_dump(mode="json", exclude_none=True)
     current_time = now or datetime.now(UTC)
     effective_datetime, timezone_name = _effective_datetime(request_dict, current_time)
-    actual_seed = (
-        seed
-        or (
-            "deterministic"
-            if pipeline.manifest.mode == PipelineMode.DETERMINISTIC
-            else secrets.token_hex(16)
-        )
+    actual_seed = seed or (
+        "deterministic"
+        if pipeline.manifest.mode == PipelineMode.DETERMINISTIC
+        else secrets.token_hex(16)
     )
     context = RunContext(
         seed=actual_seed,
@@ -153,6 +156,8 @@ def run_pipeline(
         "ruleset": pipeline.manifest.ruleset,
         "request": request_dict,
         "seed": actual_seed,
+        "result": result.model_dump(mode="json", exclude_none=True),
+        "locale": locale,
     }
     run_id = hashlib.sha256(_canonical_json(run_basis).encode("utf-8")).hexdigest()[:24]
 

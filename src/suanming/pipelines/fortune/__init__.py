@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from datetime import date as Date, datetime as DateTime, time, timedelta
+from datetime import date as Date
+from datetime import datetime as DateTime
+from datetime import time, timedelta
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -16,15 +18,19 @@ from ...shared.ganzhi import (
     four_pillars,
     ten_god,
 )
-from ...shared.time import localize_datetime, timezone_of
-
+from ...shared.time import localize_datetime
 
 TEN_GOD_DOMAIN = {
-    "比肩": "self", "劫财": "collaboration",
-    "食神": "creativity", "伤官": "expression",
-    "偏财": "resources", "正财": "resources",
-    "七杀": "pressure", "正官": "responsibility",
-    "偏印": "learning", "正印": "support",
+    "比肩": "self",
+    "劫财": "collaboration",
+    "食神": "creativity",
+    "伤官": "expression",
+    "偏财": "resources",
+    "正财": "resources",
+    "七杀": "pressure",
+    "正官": "responsibility",
+    "偏印": "learning",
+    "正印": "support",
 }
 
 
@@ -38,8 +44,8 @@ class FortuneInput(BaseModel):
     periods: int = Field(default=7, ge=1, le=36)
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "FortuneInput":
-        timezone_of(self.timezone)
+    def validate_timezone(self) -> FortuneInput:
+        localize_datetime(self.birth_datetime, self.timezone)
         return self
 
 
@@ -139,7 +145,7 @@ class FortunePipeline(Pipeline[FortuneInput, FortuneOutput]):
         tradition="chinese",
         mode=PipelineMode.DETERMINISTIC,
         summary="比较出生四柱与连续流日或流月，输出十神焦点、地支互动与结构指数。",
-        asset_pack="fortune-v1",
+        asset_pack="bazi-v1",
         tags=["流日", "流月", "十神", "趋势"],
     )
     input_model = FortuneInput

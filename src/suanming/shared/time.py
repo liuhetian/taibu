@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-
 SOLAR_TERMS: tuple[tuple[str, float], ...] = (
     ("立春", 315.0),
     ("雨水", 330.0),
@@ -52,9 +51,26 @@ def timezone_of(name: str) -> ZoneInfo:
 
 def localize_datetime(value: datetime, timezone_name: str) -> datetime:
     timezone = timezone_of(timezone_name)
-    if value.tzinfo is None:
-        return value.replace(tzinfo=timezone)
-    return value.astimezone(timezone)
+    if value.tzinfo is not None:
+        return value.astimezone(timezone)
+
+    candidates = (
+        value.replace(tzinfo=timezone, fold=0),
+        value.replace(tzinfo=timezone, fold=1),
+    )
+    valid = [
+        candidate
+        for candidate in candidates
+        if candidate.astimezone(UTC).astimezone(timezone).replace(tzinfo=None) == value
+    ]
+    if not valid:
+        raise ValueError(f"{value.isoformat()} 在时区 {timezone_name} 中是不存在的当地时间。")
+    if len(valid) == 2 and valid[0].utcoffset() != valid[1].utcoffset():
+        raise ValueError(
+            f"{value.isoformat()} 在时区 {timezone_name} 中存在两个可能偏移量；"
+            "请在 datetime 中提供明确的 UTC 偏移量。"
+        )
+    return valid[0]
 
 
 def julian_day(value: datetime) -> float:
@@ -93,15 +109,7 @@ def gregorian_jdn(year: int, month: int, day: int) -> int:
     a = (14 - month) // 12
     y = year + 4800 - a
     m = month + 12 * a - 3
-    return (
-        day
-        + (153 * m + 2) // 5
-        + 365 * y
-        + y // 4
-        - y // 100
-        + y // 400
-        - 32045
-    )
+    return day + (153 * m + 2) // 5 + 365 * y + y // 4 - y // 100 + y // 400 - 32045
 
 
 def solar_longitude(value: datetime) -> float:
@@ -112,20 +120,12 @@ def solar_longitude(value: datetime) -> float:
     """
 
     centuries = (julian_day(value) - 2451545.0) / 36525.0
-    mean_longitude = (
-        280.46646
-        + centuries * (36000.76983 + 0.0003032 * centuries)
-    ) % 360
+    mean_longitude = (280.46646 + centuries * (36000.76983 + 0.0003032 * centuries)) % 360
     mean_anomaly = math.radians(
-        (
-            357.52911
-            + centuries * (35999.05029 - 0.0001537 * centuries)
-        )
-        % 360
+        (357.52911 + centuries * (35999.05029 - 0.0001537 * centuries)) % 360
     )
     center = (
-        (1.914602 - centuries * (0.004817 + 0.000014 * centuries))
-        * math.sin(mean_anomaly)
+        (1.914602 - centuries * (0.004817 + 0.000014 * centuries)) * math.sin(mean_anomaly)
         + (0.019993 - 0.000101 * centuries) * math.sin(2 * mean_anomaly)
         + 0.000289 * math.sin(3 * mean_anomaly)
     )
@@ -164,9 +164,7 @@ def equation_of_time_minutes(value: datetime) -> float:
     local = value
     day_of_year = local.timetuple().tm_yday
     fractional_hour = local.hour + local.minute / 60 + local.second / 3600
-    gamma = 2 * math.pi / 365 * (
-        day_of_year - 1 + (fractional_hour - 12) / 24
-    )
+    gamma = 2 * math.pi / 365 * (day_of_year - 1 + (fractional_hour - 12) / 24)
     return 229.18 * (
         0.000075
         + 0.001868 * math.cos(gamma)
@@ -181,17 +179,14 @@ def true_solar_datetime(value: datetime, longitude: float) -> tuple[datetime, fl
     if timezone is not None:
         winter = value.replace(month=1, day=1, hour=12, minute=0, second=0)
         summer = value.replace(month=7, day=1, hour=12, minute=0, second=0)
-        offsets = [
-            item.utcoffset().total_seconds() / 3600
-            for item in (winter, summer)
-            if item.utcoffset() is not None
-        ]
+        offsets: list[float] = []
+        for item in (winter, summer):
+            offset = item.utcoffset()
+            if offset is not None:
+                offsets.append(offset.total_seconds() / 3600)
         offset_hours = min(offsets) if offsets else 0.0
     else:
         offset_hours = 0.0
     standard_meridian = offset_hours * 15.0
-    correction = (
-        4.0 * (longitude - standard_meridian)
-        + equation_of_time_minutes(value)
-    )
+    correction = 4.0 * (longitude - standard_meridian) + equation_of_time_minutes(value)
     return value + timedelta(minutes=correction), correction

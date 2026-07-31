@@ -6,7 +6,6 @@ from itertools import combinations
 
 from .time import gregorian_jdn, solar_longitude
 
-
 HEAVENLY_STEMS: tuple[str, ...] = (
     "甲",
     "乙",
@@ -318,4 +317,3 @@ def branch_relations(pillars: FourPillars) -> list[dict[str, str]]:
                 }
             )
     return results
-

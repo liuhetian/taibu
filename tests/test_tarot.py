@@ -32,4 +32,3 @@ def test_seed_reproduces_the_same_draw() -> None:
     )
     assert first.result["cards"] == second.result["cards"]
     assert len({card["card_id"] for card in first.result["cards"]}) == 3
-

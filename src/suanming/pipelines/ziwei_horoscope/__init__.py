@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
@@ -14,7 +14,9 @@ class ZiweiHoroscopeInput(ZiweiInput):
     target_year: int = Field(ge=1600, le=2600)
     target_lunar_month: int = Field(default=1, ge=1, le=12)
     target_lunar_day: int = Field(default=1, ge=1, le=30)
-    target_hour_branch: Literal["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"] = "子"
+    target_hour_branch: Literal[
+        "子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"
+    ] = "子"
 
 
 class ActivatedPalace(BaseModel):
@@ -54,14 +56,14 @@ def calculate_horoscope(request: ZiweiHoroscopeInput) -> ZiweiHoroscopeOutput:
             )
         )
     )
-    life_index = next(
-        index for index, palace in enumerate(natal.palaces) if palace.name == "命宫"
-    )
+    life_index = next(index for index, palace in enumerate(natal.palaces) if palace.name == "命宫")
     year_stem = natal.year_pillar[0]
     year_yang = HEAVENLY_STEMS.index(year_stem) % 2 == 0
     forward = (
-        request.gender == "male" and year_yang
-        or request.gender == "female" and not year_yang
+        request.gender == "male"
+        and year_yang
+        or request.gender == "female"
+        and not year_yang
         or request.gender == "unspecified"
     )
     step = 1 if forward else -1
@@ -74,9 +76,7 @@ def calculate_horoscope(request: ZiweiHoroscopeInput) -> ZiweiHoroscopeOutput:
     annual_index = PALACE_BRANCHES.index(EARTHLY_BRANCHES[target_year_index % 12])
     monthly_index = (annual_index + request.target_lunar_month - 1) % 12
     daily_index = (monthly_index + request.target_lunar_day - 1) % 12
-    hourly_index = (
-        daily_index + EARTHLY_BRANCHES.index(request.target_hour_branch)
-    ) % 12
+    hourly_index = (daily_index + EARTHLY_BRANCHES.index(request.target_hour_branch)) % 12
     indexes = (
         ("大限", decade_index, "十年运限所在宫"),
         ("流年", annual_index, "目标年支定位"),

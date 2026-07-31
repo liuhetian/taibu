@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --frozen --all-groups
+
+      - name: Check formatting and lint
+        run: |
+          uv run ruff format --check src tests
+          uv run ruff check src tests
+
+      - name: Check types
+        run: uv run mypy
+
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Verify bundled assets
+        run: uv run suanming assets --verify
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Smoke-test the wheel outside the source tree
+        run: |
+          uv venv .wheel-test
+          uv pip install --python .wheel-test/bin/python dist/*.whl
+          cd /tmp
+          "$GITHUB_WORKSPACE/.wheel-test/bin/python" -c \
+            "from suanming.assets import verify_asset_manifest; from suanming.runtime import describe_pipelines; assert len(describe_pipelines()) == 26; assert verify_asset_manifest()['ok']"

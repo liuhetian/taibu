@@ -33,9 +33,9 @@ def _eccentric_anomaly(mean_anomaly: float, eccentricity: float) -> float:
         1.0 + eccentricity * math.cos(mean_radians)
     )
     for _ in range(8):
-        estimate -= (
-            estimate - eccentricity * math.sin(estimate) - mean_radians
-        ) / (1.0 - eccentricity * math.cos(estimate))
+        estimate -= (estimate - eccentricity * math.sin(estimate) - mean_radians) / (
+            1.0 - eccentricity * math.cos(estimate)
+        )
     return estimate
 
 
@@ -141,11 +141,7 @@ def _heliocentric(elements: OrbitalElements) -> tuple[float, float, float, float
         elements.eccentricity,
     )
     xv = elements.distance * (math.cos(eccentric) - elements.eccentricity)
-    yv = (
-        elements.distance
-        * math.sqrt(1.0 - elements.eccentricity**2)
-        * math.sin(eccentric)
-    )
+    yv = elements.distance * math.sqrt(1.0 - elements.eccentricity**2) * math.sin(eccentric)
     true_anomaly = _atan2(yv, xv)
     radius = math.hypot(xv, yv)
     argument = true_anomaly + elements.perihelion
@@ -244,4 +240,3 @@ def ascendant_longitude(value: datetime, latitude: float, longitude: float) -> f
         )
     )
     return _normalize(result + 180.0)
-

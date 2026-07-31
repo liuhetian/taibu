@@ -1,14 +1,15 @@
 from __future__ import annotations
 
-from datetime import date as Date, datetime as DateTime, time
+from datetime import date as Date
+from datetime import datetime as DateTime
+from datetime import time
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, model_validator
 
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
-from ...shared.ganzhi import EARTHLY_BRANCHES, HEAVENLY_STEMS, four_pillars
+from ...shared.ganzhi import EARTHLY_BRANCHES, four_pillars
 from ...shared.time import gregorian_jdn, localize_datetime, solar_term_at, timezone_of
-
 
 OFFICERS = ("建", "除", "满", "平", "定", "执", "破", "危", "成", "收", "开", "闭")
 OFFICER_GUIDANCE = {
@@ -55,7 +56,20 @@ MANSIONS = (
     "翼",
     "轸",
 )
-HOUR_GODS = ("青龙", "明堂", "天刑", "朱雀", "金匮", "天德", "白虎", "玉堂", "天牢", "玄武", "司命", "勾陈")
+HOUR_GODS = (
+    "青龙",
+    "明堂",
+    "天刑",
+    "朱雀",
+    "金匮",
+    "天德",
+    "白虎",
+    "玉堂",
+    "天牢",
+    "玄武",
+    "司命",
+    "勾陈",
+)
 LUCKY_GODS = {"青龙", "明堂", "金匮", "天德", "玉堂", "司命"}
 STEM_DIRECTIONS = {
     "甲": ("东北", "东北", "东南"),
@@ -104,7 +118,7 @@ class AlmanacInput(BaseModel):
     timezone: str = "Asia/Shanghai"
 
     @model_validator(mode="after")
-    def validate_timezone(self) -> "AlmanacInput":
+    def validate_timezone(self) -> AlmanacInput:
         timezone_of(self.timezone)
         return self
 
@@ -213,7 +227,7 @@ class AlmanacPipeline(Pipeline[AlmanacInput, AlmanacOutput]):
         tradition="chinese",
         mode=PipelineMode.DETERMINISTIC,
         summary="按日期输出干支、节气、建除十二神、二十八宿、方位与十二时辰吉凶。",
-        asset_pack="almanac-v1",
+        asset_pack="yijing-v1",
         tags=["择日", "建除十二神", "二十八宿", "时辰"],
     )
     input_model = AlmanacInput
@@ -225,4 +239,3 @@ class AlmanacPipeline(Pipeline[AlmanacInput, AlmanacOutput]):
         context: RunContext,
     ) -> PipelineExecution:
         return PipelineExecution(result=calculate_almanac(request))
-

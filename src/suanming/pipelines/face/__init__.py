@@ -7,7 +7,6 @@ from pydantic import BaseModel, ConfigDict
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 
-
 FACE_RULES = {
     "forehead": {
         "broad": ("天庭", "开阔", "传统类象偏向规划与早年学习环境"),

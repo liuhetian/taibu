@@ -16,7 +16,6 @@ from ...contracts import (
 from ...registry import register_pipeline
 from .data import DECK, SPREADS, CardDefinition
 
-
 SpreadName = Literal[
     "single",
     "three_card",
@@ -87,7 +86,7 @@ def _drawn_card(
     position: str,
     reversed_: bool,
 ) -> DrawnCard:
-    orientation = "reversed" if reversed_ else "upright"
+    orientation: Literal["upright", "reversed"] = "reversed" if reversed_ else "upright"
     keywords = list(definition.reversed if reversed_ else definition.upright)
     orientation_name = "逆位" if reversed_ else "正位"
     return DrawnCard(
@@ -108,7 +107,9 @@ def _drawn_card(
     )
 
 
-def _yes_no(cards: list[tuple[CardDefinition, bool]]) -> str:
+def _yes_no(
+    cards: list[tuple[CardDefinition, bool]],
+) -> Literal["yes", "leaning_yes", "unclear", "leaning_no", "no"]:
     score = sum((-card.base_tone if reversed_ else card.base_tone) for card, reversed_ in cards)
     if score >= 2:
         return "yes"
@@ -127,17 +128,12 @@ def calculate_tarot(request: TarotInput, context: RunContext) -> TarotOutput:
     chosen: list[tuple[CardDefinition, bool]] = []
     cards: list[DrawnCard] = []
     for position, definition in zip(positions, definitions, strict=True):
-        reversed_ = (
-            request.allow_reversed
-            and context.rng.random() < request.reversal_rate
-        )
+        reversed_ = request.allow_reversed and context.rng.random() < request.reversal_rate
         chosen.append((definition, reversed_))
         cards.append(_drawn_card(definition, position, reversed_))
 
     element_balance = Counter(card.element for card, _ in chosen)
-    orientation_balance = Counter(
-        "reversed" if reversed_ else "upright" for _, reversed_ in chosen
-    )
+    orientation_balance = Counter("reversed" if reversed_ else "upright" for _, reversed_ in chosen)
     dominant_elements = [
         element
         for element, count in element_balance.items()

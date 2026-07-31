@@ -7,7 +7,6 @@ from pydantic import BaseModel, ConfigDict
 from ...contracts import Pipeline, PipelineExecution, PipelineManifest, PipelineMode, RunContext
 from ...registry import register_pipeline
 
-
 LINE_RULES = {
     "life_line": {
         "deep": "传统手相把清晰深长视为精力使用较稳定；不代表寿命。",

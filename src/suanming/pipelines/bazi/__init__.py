@@ -19,6 +19,7 @@ from ...shared.ganzhi import (
     HIDDEN_STEMS,
     STEM_ELEMENTS,
     FourPillars,
+    Ganzhi,
     branch_relations,
     five_element_statistics,
     four_pillars,
@@ -31,7 +32,6 @@ from ...shared.ganzhi import (
 from ...shared.time import (
     localize_datetime,
     solar_term_at,
-    timezone_of,
     true_solar_datetime,
 )
 
@@ -47,8 +47,8 @@ class BaziInput(BaseModel):
     day_boundary: Literal["midnight", "zi_hour"] = "midnight"
 
     @model_validator(mode="after")
-    def validate_context(self) -> "BaziInput":
-        timezone_of(self.timezone)
+    def validate_context(self) -> BaziInput:
+        localize_datetime(self.datetime, self.timezone)
         if self.true_solar_time and self.longitude is None:
             raise ValueError("启用 true_solar_time 时必须提供 longitude。")
         return self
@@ -108,7 +108,7 @@ class BaziOutput(BaseModel):
 
 def _pillar_model(
     label: str,
-    value,
+    value: Ganzhi,
     *,
     day_stem: str,
     kongwang: tuple[str, str],

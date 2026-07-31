@@ -225,4 +225,3 @@ def hexagram_dict(hexagram: Hexagram) -> dict[str, object]:
         },
         "themes": list(hexagram.themes),
     }
-

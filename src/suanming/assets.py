@@ -81,16 +81,16 @@ def verify_asset_manifest(root: str | Path | None = None) -> dict[str, Any]:
                 "exists": exists,
                 "sha256": actual,
                 "checksum_matches": bool(
-                    exists and expected and actual.lower() == str(expected).lower()
+                    actual is not None
+                    and expected is not None
+                    and actual.lower() == str(expected).lower()
                 ),
             }
         )
 
     return {
         "schema_version": manifest["schema_version"],
-        "ok": all(
-            check["exists"] and check["checksum_matches"] for check in checks
-        ),
+        "ok": all(check["exists"] and check["checksum_matches"] for check in checks),
         "checks": checks,
     }
 
@@ -123,4 +123,7 @@ def asset_references_for_pack(
                 )
             )
         return references
-    return []
+    raise AssetManifestError(
+        f"素材清单中不存在 pack：{pack_id}",
+        details=[{"pack": pack_id, "pipeline": pipeline_id}],
+    )

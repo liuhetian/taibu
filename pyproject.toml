@@ -4,18 +4,36 @@ version = "0.1.0"
 description = "A self-contained, extensible divination kernel with a JSON-only CLI."
 readme = "README.md"
 requires-python = ">=3.12"
+keywords = ["divination", "calendar", "astrology", "bazi", "tarot"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Natural Language :: Chinese (Simplified)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
+]
 dependencies = [
   "pydantic>=2.12,<3",
   "tzdata>=2025.2",
 ]
+
+[project.urls]
+Repository = "https://github.com/liuhetian/taibu"
 
 [project.scripts]
 suanming = "suanming.cli:main"
 
 [dependency-groups]
 dev = [
+  "mypy>=1.17,<2",
+  "pre-commit>=4.3,<5",
   "pytest>=8.4,<10",
   "pytest-cov>=6,<8",
+  "ruff>=0.14,<1",
 ]
 
 [build-system]
@@ -39,8 +57,58 @@ include = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "-q"
+addopts = [
+  "-q",
+  "--strict-config",
+  "--strict-markers",
+  "--cov=suanming",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+  "--cov-fail-under=90",
+]
 testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["suanming"]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["B", "C4", "E", "F", "I", "SIM", "UP"]
+ignore = ["E501", "UP046"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/suanming/cli.py" = ["BLE001"]
+
+[tool.ruff.format]
+docstring-code-format = true
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_defs = true
+exclude = ["build", "dist"]
+no_implicit_optional = true
+packages = ["suanming"]
+pretty = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
 
 [tool.uv]
 package = true

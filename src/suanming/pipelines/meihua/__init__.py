@@ -10,6 +10,7 @@ from ...registry import register_pipeline
 from ...shared.ganzhi import EARTHLY_BRANCHES, four_pillars
 from ...shared.hexagrams import (
     TRIGRAM_BY_NUMBER,
+    Trigram,
     changed_hexagram,
     hexagram_dict,
     hexagram_from_trigrams,
@@ -32,8 +33,10 @@ class MeihuaInput(BaseModel):
     text: str | None = Field(default=None, min_length=1, max_length=200)
 
     @model_validator(mode="after")
-    def validate_method(self) -> "MeihuaInput":
+    def validate_method(self) -> MeihuaInput:
         timezone_of(self.timezone)
+        if self.datetime is not None:
+            localize_datetime(self.datetime, self.timezone)
         if self.method == "two_numbers" and (self.numbers is None or len(self.numbers) != 2):
             raise ValueError("two_numbers 模式需要两个数字。")
         if self.method == "three_numbers" and (self.numbers is None or len(self.numbers) != 3):
@@ -61,7 +64,7 @@ class MeihuaOutput(BaseModel):
     method_notes: list[str]
 
 
-def _trigram(number: int):
+def _trigram(number: int) -> Trigram:
     normalized = ((number - 1) % 8) + 1
     return TRIGRAM_BY_NUMBER[normalized]
 
@@ -70,11 +73,7 @@ def _derive_numbers(request: MeihuaInput, effective: DateTime) -> tuple[int, int
     if request.method in {"two_numbers", "three_numbers"}:
         assert request.numbers is not None
         first, second = request.numbers[:2]
-        moving_source = (
-            request.numbers[2]
-            if request.method == "three_numbers"
-            else first + second
-        )
+        moving_source = request.numbers[2] if request.method == "three_numbers" else first + second
         return first, second, moving_source, list(request.numbers)
     if request.method == "text":
         assert request.text is not None
@@ -166,4 +165,3 @@ class MeihuaPipeline(Pipeline[MeihuaInput, MeihuaOutput]):
 
     def execute(self, request: MeihuaInput, context: RunContext) -> PipelineExecution:
         return PipelineExecution(result=calculate_meihua(request, context))
-
