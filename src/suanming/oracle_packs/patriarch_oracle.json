@@ -1,0 +1,25 @@
+{
+  "id": "patriarch_oracle",
+  "name": "祖师百工签",
+  "version": "0.1.0",
+  "ruleset": "original-craft-patriarch-lots-v1",
+  "tradition": "chinese_syncretic",
+  "summary": "以师承、百工和修业意象组成的原创祖师签，聚焦方法、纪律与传承。",
+  "asset_pack": "sacred-oracles-v1",
+  "asset_path": "assets/packs/oracles/patriarch-cover.png",
+  "attribution": "Suanming Kernel 原创文化签库；不对应特定宗派、真实祖师或现存签谱。",
+  "lots": [
+    {"number": 1, "title": "初磨一刃", "image": "晨光里磨石上的第一道刃光", "verse": ["百巧从钝起，一磨一寸明。", "先求手法稳，莫问满堂名。"], "polarity": "rising", "themes": ["基本功", "耐心"], "guidance": ["重复核心练习", "建立质量标准", "记录每次改进"], "cautions": ["勿跳过基础", "勿用展示替代训练"]},
+    {"number": 2, "title": "尺墨相参", "image": "木尺与墨线在案上交叉", "verse": ["有尺知长短，弹绳辨直偏。", "直觉能开路，校准保周全。"], "polarity": "balanced", "themes": ["度量", "校准"], "guidance": ["设置可测指标", "让直觉接受验证", "定义完成条件"], "cautions": ["勿只凭感觉交付", "勿让指标取代目的"]},
+    {"number": 3, "title": "炉温三候", "image": "炉火呈现三层不同颜色", "verse": ["火候分三变，成材只一时。", "早迟皆有损，守候亦为师。"], "polarity": "cautious", "themes": ["火候", "观察"], "guidance": ["定义启动信号", "观察领先指标", "预设退出条件"], "cautions": ["勿因焦虑提前", "勿因留恋错过"]},
+    {"number": 4, "title": "断木续榫", "image": "断裂木构用新榫重新接合", "verse": ["旧木虽曾断，新榫可再连。", "修时明受力，合后胜从前。"], "polarity": "transforming", "themes": ["修复", "结构"], "guidance": ["找到真正断点", "改善接口设计", "验证修复后的承载"], "cautions": ["勿只遮盖裂缝", "勿沿用原有薄弱连接"]},
+    {"number": 5, "title": "众匠同图", "image": "多双手围着同一张工图", "verse": ["各有掌中技，同看纸上图。", "异声先对齐，合力不相孤。"], "polarity": "rising", "themes": ["共识", "协作"], "guidance": ["建立单一事实来源", "标注决策人", "同步关键术语"], "cautions": ["勿让各自理解悄然分叉", "勿隐去反对意见"]},
+    {"number": 6, "title": "旧谱留白", "image": "旧工谱边缘留着宽阔空白", "verse": ["旧谱传来法，空边待后人。", "守其能用处，添写此时新。"], "polarity": "balanced", "themes": ["传承", "创新"], "guidance": ["区分不变量与实现", "在扩展点新增内容", "保留迁移说明"], "cautions": ["勿为创新抹去来路", "勿因传统拒绝修正"]},
+    {"number": 7, "title": "错纹成饰", "image": "织物上一处错纹被扩展成新图案", "verse": ["一线原曾错，回针却成花。", "知因方能改，巧手不遮瑕。"], "polarity": "transforming", "themes": ["错误", "重构"], "guidance": ["先复现问题", "提炼可复用教训", "增加回归测试"], "cautions": ["勿浪漫化所有错误", "勿在未定位前大改"]},
+    {"number": 8, "title": "收工具匣", "image": "傍晚整齐归位的工具匣", "verse": ["工毕收诸器，明朝手更轻。", "善终如善始，余地养新成。"], "polarity": "balanced", "themes": ["收尾", "维护"], "guidance": ["清理临时状态", "补充文档测试", "给下次工作留入口"], "cautions": ["勿把能运行当作已完成", "勿遗留无人知晓的手工步骤"]},
+    {"number": 9, "title": "师门问三遍", "image": "学徒在门前认真记下三次回答", "verse": ["一问知其事，再问见其因。", "三问能自解，方称入了门。"], "polarity": "balanced", "themes": ["追问", "理解"], "guidance": ["连续追问原因", "复述自己的理解", "用实例验证概念"], "cautions": ["勿因怕显得无知而沉默", "勿只记答案不懂条件"]},
+    {"number": 10, "title": "梁成撤架", "image": "屋梁稳定后脚手架逐层撤去", "verse": ["梁稳方撤架，功成少一层。", "依凭须渐退，自立始堪承。"], "polarity": "rising", "themes": ["独立", "渐退"], "guidance": ["逐步减少辅助", "验证独立运行", "保留应急回退"], "cautions": ["勿突然撤掉所有支撑", "勿让临时架构永久化"]},
+    {"number": 11, "title": "雨棚先补", "image": "暴雨前匠人先补好屋顶小孔", "verse": ["未雨查微漏，风来屋自安。", "小修今日做，省却后来难。"], "polarity": "rising", "themes": ["预防", "小修"], "guidance": ["处理已知小风险", "建立健康检查", "演练恢复流程"], "cautions": ["勿因问题小而拖延", "勿只准备不交付"]},
+    {"number": 12, "title": "百工归市", "image": "不同工匠带着成品汇入集市", "verse": ["器成终为用，巧妙在人间。", "闭户虽能造，开门始见全。"], "polarity": "rising", "themes": ["交付", "反馈"], "guidance": ["让真实用户试用", "收集结构化反馈", "按价值排序改进"], "cautions": ["勿无限闭门打磨", "勿被单个声音完全牵引"]}
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.0",
+  "generator": {
+    "mode": "built-in imagegen",
+    "policy": "one distinct asset per generation call",
+    "text_in_raster": false,
+    "source_policy": "all raster art was generated specifically for this repository"
+  },
+  "style": {
+    "id": "celestial-archive-v1",
+    "anchor": "assets/style/style-anchor.png",
+    "prompt": "assets/prompts/style-anchor.md",
+    "sha256": "cb1e5e30acca5d9697e9ef9998e6284a44e0ff0e1cb9bdc46cdcd8d7e95ea8d7"
+  },
+  "packs": [
+    {
+      "id": "bazi-v1",
+      "pipelines": ["bazi", "bazi_dayun"],
+      "profile": "fourfold celestial tablets",
+      "assets": [
+        {
+          "id": "bazi.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/bazi/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/bazi-cover.md",
+          "sha256": "a5a6e108480a8ebbaeb15ab8784b47d9071bd1a7ec6799c28ad79e402fbb4e9b"
+        }
+      ]
+    },
+    {
+      "id": "qimen-v1",
+      "pipelines": ["qimen"],
+      "profile": "top-down nine-palace cosmogram",
+      "assets": [
+        {
+          "id": "qimen.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/qimen/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/qimen-cover.md",
+          "sha256": "037d40a25cb0a97d89ffbdf3f0e062c93869261e21cea8151439ee7abcc0b992"
+        }
+      ]
+    },
+    {
+      "id": "yijing-v1",
+      "pipelines": ["liuyao", "meihua"],
+      "profile": "sixfold changing hexagram",
+      "assets": [
+        {
+          "id": "yijing.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/yijing/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "a8eb48af0725e06abad6393dd6cbb8429afcbf013d0b918bd4815ed553f68b02"
+        }
+      ]
+    },
+    {
+      "id": "ziwei-v1",
+      "pipelines": ["ziwei"],
+      "profile": "twelve celestial courts",
+      "assets": [
+        {
+          "id": "ziwei.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/ziwei/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "01a931b6a836106eb3053ad057734d5f4e651a65d965879e076cc304f57c9c8d"
+        }
+      ]
+    },
+    {
+      "id": "daliuren-v1",
+      "pipelines": ["daliuren"],
+      "profile": "offset heaven and earth plates",
+      "assets": [
+        {
+          "id": "daliuren.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/daliuren/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "f20ac969aa7c003fbea3f8f502b7889ad4fd79278cced85809c001f9c74559cf"
+        }
+      ]
+    },
+    {
+      "id": "taiyi-v1",
+      "pipelines": ["taiyi"],
+      "profile": "octagonal host and guest observatory",
+      "assets": [
+        {
+          "id": "taiyi.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/taiyi/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "b9716a5ed23666b8177a822726a623492e6fcf542228c0e90d6f440961a1e382"
+        }
+      ]
+    },
+    {
+      "id": "tarot-v1",
+      "pipelines": ["tarot"],
+      "profile": "vertical narrative cards",
+      "asset_pattern": "assets/packs/tarot/cards/{card_id}.webp",
+      "assets": [
+        {
+          "id": "tarot.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/tarot/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/tarot-cover.md",
+          "sha256": "bd7b53976d0645df86d240658761ac4158db5b8aefea253e6031ae67830d93eb"
+        }
+      ]
+    },
+    {
+      "id": "astrology-v1",
+      "pipelines": ["astrology"],
+      "profile": "tilted orbital armillary",
+      "assets": [
+        {
+          "id": "astrology.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/astrology/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "d27c646666ae0dcf4a95bed389fb164b29485f753e0efef98f05d129cb629be3"
+        }
+      ]
+    },
+    {
+      "id": "dream-v1",
+      "pipelines": ["dream"],
+      "profile": "surreal archive doorway",
+      "assets": [
+        {
+          "id": "dream.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/dream/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "408e1dced2700f1a6dbe0de3583090523bcd0d6b5c8c2cb96766660b512d7f8d"
+        }
+      ]
+    },
+    {
+      "id": "physiognomy-v1",
+      "pipelines": ["face", "palm"],
+      "profile": "neutral face and palm study diptych",
+      "assets": [
+        {
+          "id": "physiognomy.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/physiognomy/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "c83ffb2c3596ec1f5acdac507e4ecb4eceb11548e7c8ec99ec3e51076e3b077b"
+        }
+      ]
+    },
+    {
+      "id": "numerology-v1",
+      "pipelines": ["numerology"],
+      "profile": "nine-stone numerical spiral",
+      "assets": [
+        {
+          "id": "numerology.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/numerology/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "49871afa4ee6e74178e9fdd47ffa81765a6d8408fa97d7ce93948a4924d3ff5f"
+        }
+      ]
+    },
+    {
+      "id": "mbti-v1",
+      "pipelines": ["mbti"],
+      "profile": "four preference axes",
+      "assets": [
+        {
+          "id": "mbti.cover",
+          "role": "pipeline-cover",
+          "path": "assets/packs/mbti/cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "ea9f18a0e871f1a2b3b0e929cd197d03bf4acbaaf0dadde262d3aa6c6e6d61e6"
+        }
+      ]
+    },
+    {
+      "id": "sacred-oracles-v1",
+      "pipelines": ["guanyin_oracle", "tianshi_oracle", "patriarch_oracle", "lvzu_oracle"],
+      "profile": "four respectful symbolic oracle still-lifes",
+      "assets": [
+        {
+          "id": "guanyin_oracle.cover",
+          "pipelines": ["guanyin_oracle"],
+          "role": "pipeline-cover",
+          "path": "assets/packs/oracles/guanyin-cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "a0dca91ffae9b460ed460e835f6c31f49e88b97fd8a8d6003b4a08b39db831b2"
+        },
+        {
+          "id": "tianshi_oracle.cover",
+          "pipelines": ["tianshi_oracle"],
+          "role": "pipeline-cover",
+          "path": "assets/packs/oracles/tianshi-cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "a27959d3046073d7a8a7944df8c1f94eff82d9d989ac5905d441ba464d8eedc1"
+        },
+        {
+          "id": "patriarch_oracle.cover",
+          "pipelines": ["patriarch_oracle"],
+          "role": "pipeline-cover",
+          "path": "assets/packs/oracles/patriarch-cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "0998ec97b3ebb80d72b2bea08e0436bde2445b82835ae24d30c8a699839f185a"
+        },
+        {
+          "id": "lvzu_oracle.cover",
+          "pipelines": ["lvzu_oracle"],
+          "role": "pipeline-cover",
+          "path": "assets/packs/oracles/lvzu-cover.png",
+          "media_type": "image/png",
+          "status": "available",
+          "prompt": "assets/prompts/expansion-covers.md",
+          "sha256": "1b6f56591bf6921ee9fe247121618a65d174944708ab3f32cde6303582ca00e9"
+        }
+      ]
+    }
+  ]
+}

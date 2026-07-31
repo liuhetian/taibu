@@ -1,0 +1,25 @@
+{
+  "id": "tianshi_oracle",
+  "name": "天师法度签",
+  "version": "0.1.0",
+  "ruleset": "original-daoist-order-lots-v1",
+  "tradition": "daoist_inspired",
+  "summary": "以原创符箓、星斗与山川意象提供守正、审时和行动边界提示。",
+  "asset_pack": "sacred-oracles-v1",
+  "asset_path": "assets/packs/oracles/tianshi-cover.png",
+  "attribution": "Suanming Kernel 原创文化签库；非道教科仪、符箓或宫观签谱。",
+  "lots": [
+    {"number": 1, "title": "印正坛清", "image": "清晨法坛上端正安放的木印", "verse": ["印正先端己，坛清后告天。", "名分无差处，百事可周旋。"], "polarity": "rising", "themes": ["正名", "秩序"], "guidance": ["明确权限与责任", "整理记录", "按既定流程启动"], "cautions": ["勿越权承诺", "勿以仪式代替行动"]},
+    {"number": 2, "title": "符墨未干", "image": "案上墨迹尚湿的一道原创符纹", "verse": ["墨湿休轻卷，意成尚待时。", "多留一刻验，少有后来疑。"], "polarity": "cautious", "themes": ["校验", "时机"], "guidance": ["提交前复核", "等待关键条件稳定", "保存版本"], "cautions": ["避免仓促发布", "避免未经验证的承诺"]},
+    {"number": 3, "title": "松风解滞", "image": "山风穿过古松吹散薄雾", "verse": ["滞气随风散，松根不改常。", "变通须有本，守正亦能张。"], "polarity": "transforming", "themes": ["变通", "原则"], "guidance": ["固定目标而调整路径", "写出不可妥协项", "清理阻塞"], "cautions": ["勿把固执叫守正", "勿把漂移叫灵活"]},
+    {"number": 4, "title": "斗柄指寅", "image": "夜空北斗斗柄指向东方山脊", "verse": ["斗转方知序，寅回草木萌。", "先看周期位，再定进和停。"], "polarity": "balanced", "themes": ["周期", "定位"], "guidance": ["判断所处阶段", "按周期分配资源", "设置复盘节点"], "cautions": ["勿逆阶段强求结果", "勿把等待变成拖延"]},
+    {"number": 5, "title": "剑入旧鞘", "image": "木剑平稳归入旧鞘", "verse": ["剑利当知止，归鞘养其锋。", "争强非上策，留力待真冲。"], "polarity": "cautious", "themes": ["止争", "蓄力"], "guidance": ["暂停无效冲突", "保存证据与资源", "选择关键战场"], "cautions": ["勿以逞强代替解决", "勿把克制误作退缩"]},
+    {"number": 6, "title": "泉绕顽石", "image": "清泉绕过巨石继续下行", "verse": ["石重泉不斗，回环自到川。", "硬关宜借势，曲路亦能前。"], "polarity": "rising", "themes": ["借势", "迂回"], "guidance": ["寻找低阻力路径", "借助已有系统", "拆小阻碍"], "cautions": ["不要正面消耗全部资源", "不要忘记最终方向"]},
+    {"number": 7, "title": "雷止檐前", "image": "雷雨在屋檐外渐渐停息", "verse": ["雷声惊一院，雨歇见青苔。", "急讯先分级，真危再处裁。"], "polarity": "balanced", "themes": ["风险", "分级"], "guidance": ["区分警报与噪音", "建立响应级别", "先处理可逆步骤"], "cautions": ["勿被声量绑架", "勿忽视真实红线"]},
+    {"number": 8, "title": "三关验牒", "image": "山道三处关口查验同一纸牒", "verse": ["一牒过三关，文真路自宽。", "前后一致处，众手可同安。"], "polarity": "rising", "themes": ["一致性", "协作"], "guidance": ["统一信息源", "核对跨环节字段", "让流程可追溯"], "cautions": ["避免口径分裂", "避免重复手工抄写"]},
+    {"number": 9, "title": "灯照空坛", "image": "一盏灯照着暂时空置的法坛", "verse": ["坛空非事绝，灯在候人归。", "缺位先标记，时来再合围。"], "polarity": "balanced", "themes": ["缺口", "等待"], "guidance": ["明确缺失角色", "准备交接材料", "设定等待期限"], "cautions": ["勿假装资源齐备", "勿无限期悬置"]},
+    {"number": 10, "title": "鹤过云门", "image": "白鹤穿过两峰间的云门", "verse": ["云门开一线，鹤影已先穿。", "机会轻而短，行囊务必简。"], "polarity": "rising", "themes": ["窗口", "轻量"], "guidance": ["准备轻量方案", "减少审批路径", "抓住短窗口验证"], "cautions": ["勿携带非必要范围", "勿等待完美条件"]},
+    {"number": 11, "title": "石碑重拓", "image": "旧石碑上重新铺纸拓印", "verse": ["旧字磨难辨，重拓见其根。", "传承非照抄，校误再开门。"], "polarity": "transforming", "themes": ["传承", "校勘"], "guidance": ["回到第一手依据", "记录修改原因", "保留兼容层"], "cautions": ["勿把旧误当传统", "勿抹去版本历史"]},
+    {"number": 12, "title": "云篆归一", "image": "散开的云纹最终汇成一个圆环", "verse": ["千画终归一，一中又有千。", "复杂先收束，接口要留宽。"], "polarity": "balanced", "themes": ["抽象", "扩展"], "guidance": ["提取共同契约", "把差异留在插件层", "为新增管线写校验"], "cautions": ["勿过早统一所有细节", "勿让扩展绕过契约"]}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "guanyin_oracle",
+  "name": "观音慈照签",
+  "version": "0.1.0",
+  "ruleset": "original-compassion-lots-v1",
+  "tradition": "buddhist_inspired",
+  "summary": "从原创慈悲主题签库抽取行动提示，强调观照、善意与现实责任。",
+  "asset_pack": "sacred-oracles-v1",
+  "asset_path": "assets/packs/oracles/guanyin-cover.png",
+  "attribution": "Suanming Kernel 原创文化签库；非任何寺院、经典或传统签谱的转录。",
+  "lots": [
+    {"number": 1, "title": "灯浮静水", "image": "一盏莲灯越过无波水面", "verse": ["灯心不逐浪，微照见归舟。", "先明脚下一尺，再问远岸千秋。"], "polarity": "balanced", "themes": ["澄明", "次序"], "guidance": ["缩小当前问题", "先完成最小可行步骤", "在安静时复核动机"], "cautions": ["不要把焦虑包装成急迫", "不要同时追逐过多目标"]},
+    {"number": 2, "title": "空钵承雨", "image": "石阶上的空钵接住春雨", "verse": ["钵空方能受，雨细亦成泉。", "肯放旧执处，新意自然圆。"], "polarity": "transforming", "themes": ["放下", "接纳"], "guidance": ["删除一个无效前提", "听取不同立场", "给变化留出空位"], "cautions": ["勿将退让等同失败", "勿急于填满所有空白"]},
+    {"number": 3, "title": "竹影过墙", "image": "月下竹影缓缓越过白墙", "verse": ["影移墙未动，风过竹还青。", "事情多由境转，不必责一人心。"], "polarity": "balanced", "themes": ["视角", "环境"], "guidance": ["区分人和处境", "改变可调整的环境变量", "延迟归因"], "cautions": ["避免贴标签", "避免因一次表现下定论"]},
+    {"number": 4, "title": "渡口解缆", "image": "晨雾中一只小舟刚解开缆绳", "verse": ["旧索既已解，潮来正可行。", "轻舟宜载少，重诺要分明。"], "polarity": "rising", "themes": ["启程", "轻装"], "guidance": ["确认必要资源", "明确承诺边界", "尽快开始第一程"], "cautions": ["不要带上旧项目的全部负担", "不要模糊责任人"]},
+    {"number": 5, "title": "山门暂闭", "image": "暮色里关闭的山门与一旁小径", "verse": ["正门今暂掩，侧径有松声。", "不是无通处，只须换路程。"], "polarity": "cautious", "themes": ["转向", "耐心"], "guidance": ["寻找替代路径", "询问开放时间", "保留核心目的"], "cautions": ["勿以一次拒绝视为终局", "勿强闯边界"]},
+    {"number": 6, "title": "双鸟衔枝", "image": "两只鸟共同衔起一根细枝", "verse": ["一枝双翼举，巢稳在同心。", "先把分工定，再听彼此音。"], "polarity": "rising", "themes": ["协作", "分工"], "guidance": ["写下角色边界", "建立同步节奏", "让贡献可见"], "cautions": ["避免隐形劳动", "避免用默契代替确认"]},
+    {"number": 7, "title": "石上新苔", "image": "旧石缝里生出鲜绿苔痕", "verse": ["旧石非无意，新苔自有春。", "缓处生微变，长时见更新。"], "polarity": "rising", "themes": ["恢复", "积累"], "guidance": ["采用低强度持续行动", "记录微小变化", "保护恢复时间"], "cautions": ["不要追求立刻翻盘", "不要忽略休息"]},
+    {"number": 8, "title": "云开半月", "image": "云层露出半轮清月", "verse": ["月未全明夜，云开已有光。", "证据虽还少，方向可商量。"], "polarity": "balanced", "themes": ["证据", "渐明"], "guidance": ["列出已知与未知", "做一次小范围验证", "允许结论暂定"], "cautions": ["勿把猜测当事实", "勿因不完整而停止"]},
+    {"number": 9, "title": "药草分篮", "image": "药草被仔细分入不同竹篮", "verse": ["同生山野里，性味各须分。", "善意还要辨，合宜才可行。"], "polarity": "cautious", "themes": ["辨别", "边界"], "guidance": ["分类不同问题", "确认建议适用条件", "必要时求助专业人员"], "cautions": ["不要把一种方法用于所有问题", "不要用签意替代医疗判断"]},
+    {"number": 10, "title": "回声入谷", "image": "山谷中传回一声温和回应", "verse": ["所言终有返，入谷辨其真。", "若愿听回响，先把语声匀。"], "polarity": "balanced", "themes": ["沟通", "反馈"], "guidance": ["请求具体反馈", "复述对方理解", "调整表达强度"], "cautions": ["不要只等认同", "不要把沉默解释为拒绝"]},
+    {"number": 11, "title": "雨后扫阶", "image": "雨停后有人清扫落叶石阶", "verse": ["雨止泥痕在，阶前可再清。", "过错宜修补，不必久自刑。"], "polarity": "transforming", "themes": ["修复", "责任"], "guidance": ["承认具体影响", "提出可执行补救", "给关系恢复时间"], "cautions": ["勿用自责代替修复", "勿要求立即原谅"]},
+    {"number": 12, "title": "远钟近息", "image": "远寺钟声与近处平稳呼吸", "verse": ["钟远犹能听，息近最须知。", "大愿从今起，一呼一吸持。"], "polarity": "balanced", "themes": ["当下", "持续"], "guidance": ["把长期愿望拆成今天的动作", "为习惯设置触发点", "定期回看"], "cautions": ["不要以宏愿逃避眼前任务", "不要忽略身体信号"]}
+  ]
+}

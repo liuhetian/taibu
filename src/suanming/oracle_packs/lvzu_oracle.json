@@ -1,0 +1,21 @@
+{
+  "id": "lvzu_oracle",
+  "name": "吕祖心剑签",
+  "version": "0.1.0",
+  "ruleset": "original-inner-alchemy-lots-v1",
+  "tradition": "daoist_inspired",
+  "summary": "用原创心剑、黄粱与云游意象提示辨欲、修心和行动取舍。",
+  "asset_pack": "sacred-oracles-v1",
+  "asset_path": "assets/packs/oracles/lvzu-cover.png",
+  "attribution": "Suanming Kernel 原创文化签库；非吕祖经典、扶乩文本或传统签谱。",
+  "lots": [
+    {"number": 1, "title": "心剑照尘", "image": "一柄无刃光剑照见浮尘", "verse": ["剑不伤人处，光明自断疑。", "先分真与欲，再问去和持。"], "polarity": "transforming", "themes": ["辨别", "动机"], "guidance": ["写下真实动机", "区分需要与欲望", "删除自我欺骗的说法"], "cautions": ["勿把尖刻当清醒", "勿急着审判他人"]},
+    {"number": 2, "title": "黄粱未熟", "image": "炉上黄粱尚未煮熟，窗外天色渐亮", "verse": ["梦长粱未熟，醒后路仍长。", "盛景先经问，可堪日日忙。"], "polarity": "cautious", "themes": ["愿景", "代价"], "guidance": ["评估理想的日常成本", "做现实原型", "询问长期是否愿意重复"], "cautions": ["勿只爱结果想象", "勿因醒悟否定所有愿望"]},
+    {"number": 3, "title": "鹤背轻囊", "image": "云间白鹤背着极轻的行囊", "verse": ["万里携囊小，云高眼界宽。", "所需原不众，减去便心安。"], "polarity": "rising", "themes": ["简化", "远行"], "guidance": ["列出真正必需项", "减少维护负担", "选择可携带的方案"], "cautions": ["勿把逃避当轻装", "勿丢掉关键保障"]},
+    {"number": 4, "title": "酒醒看月", "image": "空杯旁一轮清月映入窗内", "verse": ["杯空人渐醒，月白照前非。", "知错非为困，回身便可归。"], "polarity": "transforming", "themes": ["清醒", "改正"], "guidance": ["承认判断偏差", "停止继续投入", "重设下一步"], "cautions": ["勿为沉没成本坚持", "勿沉溺羞耻"]},
+    {"number": 5, "title": "一炉温养", "image": "小炉中稳定而不猛烈的火", "verse": ["火小能长养，炉安气自和。", "功夫无炫处，日日莫蹉跎。"], "polarity": "balanced", "themes": ["习惯", "稳定"], "guidance": ["设定可持续频率", "追踪连续性", "保持适度难度"], "cautions": ["勿靠爆发维持", "勿因微小而轻视"]},
+    {"number": 6, "title": "三岔问风", "image": "行者站在三岔路口观察风与旗", "verse": ["三路皆能去，风来旗有声。", "莫求天代选，试步见分明。"], "polarity": "balanced", "themes": ["选择", "试验"], "guidance": ["设计低成本试走", "确定比较标准", "限定决策期限"], "cautions": ["勿等待绝对确定", "勿把随机迹象当命令"]},
+    {"number": 7, "title": "剑穗结解", "image": "旧剑穗上的结被耐心解开", "verse": ["结久非须斩，循丝可自开。", "人情多有脉，缓手莫相催。"], "polarity": "balanced", "themes": ["关系", "耐心"], "guidance": ["从最小误会开始", "给对方完整表达时间", "确认共同目标"], "cautions": ["勿以快刀处理所有关系", "勿把耐心变成无边界忍受"]},
+    {"number": 8, "title": "东游返舍", "image": "远游者清晨回到朴素小屋", "verse": ["看尽千山色，归来一室明。", "远求终有得，落地才成行。"], "polarity": "rising", "themes": ["整合", "落地"], "guidance": ["整理旅途所得", "转换成一个本地行动", "分享可复用经验"], "cautions": ["勿沉迷持续搜寻", "勿让见识停在谈论"]}
+  ]
+}
